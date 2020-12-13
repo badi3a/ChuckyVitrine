@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+</head>
+<body>
+
+<div *ngIf="!artworks" class="d-flex justify-content-center mt-5 mb-5">
+  <div class="spinner-grow" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<div *ngIf="artworks">
+<div class="container mb-5" *ngIf="artworks">
+ <hr class="my-5" [@expand]>
+	<div class="card-deck">
+		<div class="card" *ngFor="let artwork of artworks" [routerLink]="['/artworkdetail', artwork.id]"  appApphighlight>
+			<img class="card-img-top" src="{{ baseURL + artwork.mainimage }}" alt="Card image cap">
+			<div class="card-body">
+				<h2 class="card-title">{{artwork.title}}</h2>
+				<h2 class="card-title font-weight-light font-italic">{{artwork.category}}</h2>
+				<p class="card-text">{{artwork.description}}</p>
+				<p class="card-text">{{artwork.likes}} Likes</p>
+				<p class="card-text font-weight-light font-italic">--Views {{artwork.views}}</p>
+				<button type="button" class="btn btn-outline-dark btn-lg ml-3" [routerLink]="['/artworkdetail', artwork.id]"
+				(click)="updateViews(artwork)">Voir</button>
+				<button type="button" class="btn btn-warning btn-lg ml-2" (click)="sendNotif(artwork)"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+</svg></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+</div>
+
+</body>

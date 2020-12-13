@@ -1,0 +1,66 @@
+  <h1 style="font-size: 40px;" class="text-center font-weight-bold mt-5">Contact us</h1>
+  <div class="d-flex justify-content-center align-items-center">
+  <div fxFlex fxFlexOffset="20px" class="form-size">
+    <div *ngIf="!bol" class="mt-5">
+    <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
+  </div>
+    <mat-list-item *ngIf="cmsg && !lob" class="mt-5">
+      <p matLine>Message sent!</p>
+    </mat-list-item>
+    <form novalidate *ngIf="bol && lob" [formGroup]="contactForm" #fform="ngForm" (ngSubmit)="onSubmit()" class="mt-5 mb-5">
+      <p>
+        <mat-form-field class="half-width">
+          <input matInput formControlName="firstname" placeholder="First Name" type="text" required>
+          <mat-error *ngIf="formErrors.firstname">{{formErrors.firstname}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="half-width">
+          <input matInput formControlName="lastname" placeholder="Last Name" type="text" required>
+          <mat-error *ngIf="formErrors.lastname">{{formErrors.lastname}}</mat-error>
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field class="half-width">
+          <input matInput formControlName="telnum" placeholder="Tel. Number" type="tel" pattern="[0-9]*" required>
+          <mat-error *ngIf="formErrors.telnum">{{formErrors.telnum}}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="half-width">
+          <input matInput formControlName="email" placeholder="Email" type="email" email required>
+          <mat-error *ngIf="formErrors.email">{{formErrors.email}}</mat-error>
+        </mat-form-field>
+      </p>
+      
+      <p>
+        <mat-form-field class="full-width">
+          <textarea matInput formControlName="message" placeholder="Your contact" rows=12></textarea>
+        </mat-form-field>
+      </p>
+      <button type="submit" mat-button class="background-primary text-floral-white">Envoyer</button>
+    </form>
+  </div>
+  </div>
+  <div class="col-md-12 text-center">
+         <div class="border-top border-dark my-3 w-25 mx-auto"></div>
+         <h1 class="font-weight-bold">Messages</h1>
+         <div class="border-top border-dark my-3 w-25 mx-auto"></div>
+  </div>
+
+  <div class="container mb-3" *ngIf="contactmsgs">
+	<div class="card mb-2" *ngFor="let cmsgs of contactmsgs">
+  		<div class="card-body">
+		<h2 class="card-title">Sender: {{cmsgs.firstname}} {{cmsgs.lastname}}</h2>
+		<p class="card-text">Phone number: {{cmsgs.telnum}}</p>
+		<p class="card-text">Email: {{cmsgs.email}}</p>
+		<p class="card-text">Message: {{cmsgs.message}}</p>
+		<div class="d-flex flex-row-reverse">
+		<!-- <button type="button" class="btn btn-danger btn-sm ml-3" (click)="onDelete(comment)">Delete</button>
+		<button type="button" class="btn btn-warning btn-sm" (click)="onModify(comment)">Modify</button> -->
+		</div>
+  		</div>
+	</div>
+</div>
+
+<div *ngIf="!contactmsgs" class="d-flex justify-content-center mt-5 mb-5">
+  <div class="spinner-grow" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+</head>
+<body>
+
+<h1 style="font-size: 40px;" class="text-center font-weight-bold mt-5">Galerie</h1>
+<div *ngIf="artworks">
+<div class="container d-flex justify-content-center mt-5 mb-5">
+	<button type="button" class="btn btn-info" (click)="onSrch()">Search</button></div>
+
+<div class="container mt-5 mb-5" *ngIf="srch">
+<form #f="ngForm">
+<div class="input-group md-form form-sm form-1 pl-0">
+  <div class="input-group-prepend">
+    <span class="input-group-text cyan lighten-2" id="basic-text1" (click)="onSearch(sech)"><i
+        aria-hidden="true">Search</i></span>
+  </div>
+  <input class="form-control my-0 py-1" type="text" placeholder="Search" aria-label="Search" name="sech" [(ngModel)]="sech"
+           #s="ngModel" required minlength="3">
+</div>
+<div class="alert alert-danger" *ngIf="s.touched && s.invalid">
+    <div *ngIf="s.errors.required">Search is required</div>
+    <div *ngIf="s.errors.minlength">Search minlength is 3</div>
+  </div>
+</form>
+<div class="mt-5">
+	<p>Sort artworks by: </p>
+	<button type="button" class="btn btn-dark mr-2" (click)="sortLikes()">Likes</button>
+	<button type="button" class="btn btn-dark" (click)="sortViews()">Views</button>
+</div>
+<button type="button" class="btn btn-light mt-5" (click)="resetArt()">Reset</button>
+</div>
+</div>
+
+<app-artwork (notifLike)="incrementLike($event)" [artworks]="artworks"></app-artwork>
+
+<div class="col-md-12 text-center">
+         <div class="border-top border-dark my-3 w-25 mx-auto"></div>
+         <h1 class="font-weight-bold">Comments</h1>
+         <div class="border-top border-dark my-3 w-25 mx-auto"></div>
+</div>
+
+<div class="container mb-3" *ngIf="commentes && bl">
+	<div class="card mb-2" *ngFor="let comment of commentes" appHighlight>
+  		<div class="card-body">
+		<h2 class="card-title">Author: {{comment.author}}</h2>
+		<p class="card-text">{{comment.content}}</p>
+		<p class="card-text font-weight-light font-italic">--{{comment.date | date}}</p>
+		<div class="d-flex flex-row-reverse">
+		<button type="button" class="btn btn-danger btn-sm ml-3" (click)="onDelete(comment)">Delete</button>
+		<button type="button" class="btn btn-warning btn-sm" (click)="onModify(comment)">Modify</button>
+		</div>
+  		</div>
+	</div>
+</div>
+
+<div *ngIf="!commentes" class="d-flex justify-content-center mt-5 mb-5">
+  <div class="spinner-grow" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+
+<div *ngIf="bole" class="d-flex justify-content-center mt-5 mb-5">
+  <div class="spinner-grow" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<div *ngIf="!bl" class="d-flex justify-content-center mt-5 mb-5">
+  <div class="spinner-grow" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<div class="container" *ngIf="commentes">
+<div *ngIf="!bole">
+<div class="col-md-12 text-center">
+         <div class="border-top border-dark my-3 w-25 mx-auto"></div>
+         <h1 class="font-weight-bold">{{val2}}</h1>
+</div>
+<form class="mb-5" #f="ngForm" onsubmit="this.reset();">
+  <div class="form-group">
+    <label for="exampleFormControlInput1">Author</label>
+    <input type="text" name="author" class="form-control" [(ngModel)]="comment.author"
+           required minlength="3" #t="ngModel" placeholder={{auth}}>
+  </div>
+  <div class="alert alert-danger" *ngIf="t.touched && t.invalid">
+    <div *ngIf="t.errors.required">Author is required</div>
+    <div *ngIf="t.errors.minlength">Author minlength is 3</div>
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">Your comment</label>
+    <input type="text" name="content" class="form-control" [(ngModel)]="comment.content"
+           required minlength="3" #c="ngModel" placeholder={{cont}}>
+  </div>
+  <div class="alert alert-danger" *ngIf="c.touched && c.invalid">
+    <div *ngIf="c.errors.required">Content is required</div>
+    <div *ngIf="c.errors.minlength">Content minlength is 3</div>
+  </div>
+  <div><button type="submit" class="btn btn-dark" [disabled]="f.invalid" (click)="onSubmit()">{{val1}}</button></div>
+</form>
+</div>
+</div>
+
+</body>
